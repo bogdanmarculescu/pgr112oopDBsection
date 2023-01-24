@@ -30,4 +30,12 @@ public class Locker {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public String printout(){
+        return "Locker: \n" +
+                "Id: " + this.id + "\n" +
+                "Location: " + this.location + "\n" +
+                "Address: " + this.address + "\n"
+                ;
+    }
 }

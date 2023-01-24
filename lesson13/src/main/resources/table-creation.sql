@@ -9,7 +9,7 @@ CREATE TABLE lockers(
 
 CREATE TABLE equipmentTable(
     id INT NOT NULL AUTO_INCREMENT,
-    type VARCHAR(45) NOT NULL ,
+    name VARCHAR(45) NOT NULL ,
     requiresMaintenance BOOLEAN,
     location INT NULL,
     primary key(id),

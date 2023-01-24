@@ -1,5 +1,7 @@
 import equipment.EquipmentManager;
+import equipment.Locker;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -11,12 +13,13 @@ public class Menu {
     public void run(){
         // runnning stuff
         Scanner sc = new Scanner(System.in);
+        JDBCOps jdbcOps = new JDBCOps();
         boolean keepRunning = true;
 
         while(keepRunning){
             System.out.println("Options");
             System.out.println("0. Exit");
-            System.out.println("1. See all equipment");
+            System.out.println("1. See all lockers");
 
             String input = sc.nextLine();
 
@@ -27,6 +30,15 @@ public class Menu {
                     break;
                 }
                 case "1" : {
+                    // connect to db to show lockers
+                    System.out.println("Lockers");
+                    ArrayList<Locker> lockers = jdbcOps.getLockers();
+                    for(Locker l : lockers){
+                        System.out.println(l.printout());
+                    }
+                    break;
+                }
+                case "2" : {
                     // connect to db and show all equipment
                     System.out.println("This is where we display stuff");
 

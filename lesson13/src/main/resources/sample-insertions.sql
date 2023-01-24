@@ -1,3 +1,3 @@
 USE equipmentManager;
 
-INSERT INTO lockers(location) VALUES('SampleLocker');
+INSERT INTO lockers(location, address) VALUES('Locker42', 'Urtegata1');
