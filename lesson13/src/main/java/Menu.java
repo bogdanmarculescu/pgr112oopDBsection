@@ -36,6 +36,8 @@ public class Menu {
                     for(Locker l : lockers){
                         System.out.println(l.printout());
                     }
+                    System.out.println("Locker 1: ");
+                    System.out.println(jdbcOps.getLocker(1).printout());
                     break;
                 }
                 case "2" : {
