@@ -3,6 +3,17 @@ package equipment;
 public class Locker {
     private int id;
     private String location;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+
 
     public int getId() {
         return id;
