@@ -1,6 +1,17 @@
 package equipment;
 
 public class Volleyball extends Equipment{
+
+
+    public Volleyball(){
+        new Volleyball("RandomVolleyball", new Locker());
+    }
+    public Volleyball(String name, Locker location){
+        this.name = name;
+        this.requiresMaintenance = false;
+        this.location = location;
+
+    }
     @Override
     public boolean requiresMaintenance() {
         return this.requiresMaintenance;
@@ -14,6 +25,6 @@ public class Volleyball extends Equipment{
 
     @Override
     public String store() {
-        return null;
+        return location.getLocation();
     }
 }

@@ -22,10 +22,13 @@ public class Sword extends Equipment{
 
     @Override
     public String store() {
-        return null;
+        return location.getLocation();
     }
 
     public String getType(){
         return this.type;
+    }
+    public void setType(String type){
+        this.type = type;
     }
 }
