@@ -41,6 +41,14 @@ public class Football extends Equipment implements Kickable{
     }
 
     @Override
+    public String printout() {
+         return "Football! (can be kicked) \n"
+                + "Name: " + this.name + "\n"
+                + "Maintenance: " + this.requiresMaintenance + "\n"
+                + "Location: " + this.location.getLocation();
+    }
+
+    @Override
     public boolean kick() {
         System.out.println("Kicked!");
         return true;

@@ -45,4 +45,5 @@ public abstract class Equipment {
 
     public abstract String store();
 
+    public abstract String printout();
 }

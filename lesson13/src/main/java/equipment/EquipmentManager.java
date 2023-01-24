@@ -26,4 +26,13 @@ public class EquipmentManager {
     public int itemCount(){
         return overview.size();
     }
+
+    public ArrayList<String> equipmentPrintout(){
+        ArrayList<String> result = new ArrayList<>();
+
+        for(Equipment e : overview){
+            result.add(e.printout());
+        }
+        return result;
+    }
 }

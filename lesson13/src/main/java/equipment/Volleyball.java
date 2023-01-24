@@ -27,4 +27,12 @@ public class Volleyball extends Equipment{
     public String store() {
         return location.getLocation();
     }
+
+    @Override
+    public String printout() {
+        return "Volleyball! (no kicking) \n"
+                + "Name: " + this.name + "\n"
+                + "Maintenance: " + this.requiresMaintenance + "\n"
+                + "Location: " + this.location.getLocation();
+    }
 }

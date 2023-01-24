@@ -25,6 +25,16 @@ public class Sword extends Equipment{
         return location.getLocation();
     }
 
+    @Override
+    public String printout() {
+        return "Sword \n"
+                + "Name: " + this.name + "\n"
+                + "Type: " + this.type + "\n"
+                + "Maintenance: " + this.requiresMaintenance + "\n"
+                + "Location: " + this.location.getLocation();
+
+    }
+
     public String getType(){
         return this.type;
     }
