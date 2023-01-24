@@ -14,13 +14,26 @@ public class JDBCOps {
         }
     }
 
+    public Connection getConnection(){
+        try{
+            Connection con = DriverManager
+                    .getConnection(
+                            "jdbc:mysql://localhost:3306/equipmentManager?useSSL=false",
+                            "root",
+                            "adminroot"
+                    );
+            return con;
+        }
+        catch(SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<Locker> getLockers(){
         ArrayList<Locker> result = new ArrayList<>();
 
-        try(Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/equipmentManager?useSSL=false",
-                        "root",
-                        "adminroot")) {
+        try(Connection con = getConnection()) {
             Statement stmt = con.createStatement();
 
             String selectSql = "SELECT * FROM lockers";
@@ -44,10 +57,7 @@ public class JDBCOps {
         return result;
     }
     public boolean addLocker(Locker locker){
-        try (Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/equipmentManager?useSSL=false",
-                        "root",
-                        "adminroot")) {
+        try (Connection con = getConnection()) {
 
             Statement stmt = con.createStatement();
 
@@ -65,10 +75,32 @@ public class JDBCOps {
         return true;
     }
 
-    public Locker getLocker(int id){
+    public Locker getLockerBuiltin(int id){
         try (Connection con = DriverManager
                 .getConnection("jdbc:mysql://localhost:3306/equipmentManager?useSSL=false", "root", "adminroot")) {
 
+            Statement stmt = con.createStatement();
+            String selectLocker = "SELECT * FROM lockers " +
+                    "WHERE id='" +
+                    id +
+                    "'" ;
+
+            ResultSet resultSet = stmt.executeQuery(selectLocker);
+            while(resultSet.next()){
+                Locker l1 = new Locker();
+                l1.setId(resultSet.getInt("id"));
+                l1.setLocation(resultSet.getString("location"));
+                l1.setAddress(resultSet.getString("address"));
+                return l1;
+            }
+        }
+        catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+    public Locker getLocker(int id){
+        try (Connection con = getConnection()){
             Statement stmt = con.createStatement();
             String selectLocker = "SELECT * FROM lockers " +
                     "WHERE id='" +

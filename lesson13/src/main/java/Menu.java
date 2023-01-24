@@ -20,6 +20,7 @@ public class Menu {
             System.out.println("Options");
             System.out.println("0. Exit");
             System.out.println("1. See all lockers");
+            System.out.println("12. Add a locker");
 
             String input = sc.nextLine();
 
@@ -38,6 +39,25 @@ public class Menu {
                     }
                     System.out.println("Locker 1: ");
                     System.out.println(jdbcOps.getLocker(1).printout());
+                    break;
+                }
+                case "12" :{
+                    System.out.println("Add a locker");
+                    System.out.println("Location: ");
+                    String location = sc.nextLine();
+                    System.out.println("Address: ");
+                    String address = sc.nextLine();
+                    Locker tempLocker = new Locker();
+                    tempLocker.setLocation(location);
+                    tempLocker.setAddress(address);
+
+                    boolean added = jdbcOps.addLocker(tempLocker);
+                    if(added){
+                        System.out.println("Huzzah! Added!");
+                    }
+                    else{
+                        System.out.println("NOOOOOOO!");
+                    }
                     break;
                 }
                 case "2" : {
