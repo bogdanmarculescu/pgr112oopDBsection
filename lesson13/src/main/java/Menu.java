@@ -37,8 +37,9 @@ public class Menu {
                     for(Locker l : lockers){
                         System.out.println(l.printout());
                     }
-                    System.out.println("Locker 1: ");
-                    System.out.println(jdbcOps.getLocker(1).printout());
+
+                    //System.out.println("Locker 1: ");
+                    //System.out.println(jdbcOps.getLocker(1).printout());
                     break;
                 }
                 case "12" :{
@@ -52,6 +53,7 @@ public class Menu {
                     tempLocker.setAddress(address);
 
                     boolean added = jdbcOps.addLocker(tempLocker);
+                    //boolean added = jdbcOps.addLockerToDb(tempLocker);
                     if(added){
                         System.out.println("Huzzah! Added!");
                     }
