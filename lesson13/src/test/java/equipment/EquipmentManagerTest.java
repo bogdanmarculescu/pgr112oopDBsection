@@ -42,4 +42,20 @@ public class EquipmentManagerTest {
 
         assertEquals(1, footballs.size());
     }
+
+    @Test
+    public void testCasting(){
+        ArrayList<Equipment> eqList = new ArrayList<>();
+
+        Football f1 = new Football();
+        eqList.add(f1);
+
+        Volleyball v1 = new Volleyball();
+        eqList.add(v1);
+
+        //v1.getClass();
+
+        assertEquals(2, eqList.size());
+
+    }
 }

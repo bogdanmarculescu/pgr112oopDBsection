@@ -1,21 +1,33 @@
 USE equipmentManager;
 
 CREATE TABLE lockers(
-    id INT NOT NULL AUTO_INCREMENT,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     location VARCHAR(45),
     address VARCHAR(45),
     primary key (id)
 );
 
 CREATE TABLE equipmentTable(
-    id INT NOT NULL AUTO_INCREMENT,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(45) NOT NULL ,
+    type VARCHAR(45) ,
     requiresMaintenance BOOLEAN,
-    location INT NULL,
+    location BIGINT NULL,
     primary key(id),
     CONSTRAINT fk_location
         FOREIGN KEY (location)
         REFERENCES lockers(id)
+);
+
+CREATE TABLE footballs(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    timesKicked INT,
+    weight INT,
+    equipment BIGINT,
+    primary key (id),
+    CONSTRAINT fk_location
+                      FOREIGN KEY (equipment)
+                      REFERENCES equipmentTable(id)
 );
 
 
