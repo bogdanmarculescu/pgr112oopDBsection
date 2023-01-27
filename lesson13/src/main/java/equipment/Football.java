@@ -3,15 +3,11 @@ package equipment;
 public class Football extends Equipment implements Kickable{
 
     private int timesKicked;
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
     private int weight;
+
+
+
+
     public Football(){
         new Football("RandomFootball", new Locker());
     }
@@ -26,6 +22,15 @@ public class Football extends Equipment implements Kickable{
         this.weight = 450;
         this.timesKicked = 0;
     }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
 
     @Override
     public boolean requiresMaintenance() {
@@ -56,5 +61,8 @@ public class Football extends Equipment implements Kickable{
         System.out.println("Kicked!");
         timesKicked++;
         return true;
+    }
+    public int getTimesKicked(){
+        return timesKicked;
     }
 }

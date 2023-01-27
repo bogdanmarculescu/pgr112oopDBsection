@@ -5,6 +5,11 @@ public abstract class Equipment {
     protected long id;
     protected Locker location;
     protected boolean requiresMaintenance;
+    protected String name;
+
+    public boolean isRequiresMaintenance() {
+        return requiresMaintenance;
+    }
 
     public void setRequiresMaintenance(boolean maintenance){
         this.requiresMaintenance = maintenance;
@@ -25,8 +30,6 @@ public abstract class Equipment {
         this.name = name;
     }
 
-    protected String name;
-
     public Locker getLocation() {
         return location;
     }
@@ -34,8 +37,6 @@ public abstract class Equipment {
     public void setLocation(Locker location) {
         this.location = location;
     }
-
-
 
     public abstract boolean requiresMaintenance();
     public abstract void performMaintenance();

@@ -64,9 +64,10 @@ public class JDBCOps {
     /***
      * The method adds an object of type Locker to the appropriate db table.
      * @param locker - the locker object that needs to be added.
-     * @return - true if successful, false if not successful.
+     * @return - id if successful, 0 if not successful.
      */
-    public boolean addLocker(Locker locker){
+    public long addLocker(Locker locker){
+        long id = -1;
         try (Connection con = getConnection()) {
 
             Statement stmt = con.createStatement();
@@ -78,11 +79,26 @@ public class JDBCOps {
                     locker.getAddress() +
                     "')";
             stmt.executeUpdate(insertSql);
+
+            //String idretrieval = "SELECT SCOPE_IDENTITY()";
+            String idretrieval = "SELECT id FROM lockers WHERE " +
+                    "location='" + locker.getLocation() + "' AND " +
+                    "address='" + locker.getAddress() +
+                    "'";
+
+            ResultSet rs = stmt.executeQuery(idretrieval);
+
+            while(rs.next()){
+                id = rs.getLong("id");
+                return id;
+            }
+
+
+
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return false;
         }
-        return true;
+        return id;
     }
 
     /***
@@ -169,4 +185,30 @@ public class JDBCOps {
 
         return result;
     }
+
+    public void addEquipment(Equipment equip){
+        String type = equip.getClass().getSimpleName();
+        try(Connection con = getConnection()) {
+            Statement stat = con.createStatement();
+
+            String sql = "INSERT INTO equipmentTable(requiresMaintenance, location, name, type) " +
+                    "VALUES ('" +
+                    (equip.requiresMaintenance() ? 1 : 0)
+                    + "', '" +
+                    equip.getLocation().getId() +"', '" +
+                    equip.getName() + "', '" +
+                    type + "')";
+
+            stat.execute(sql);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    /*
+    public ArrayList<Football> getFootballs(){
+    }
+
+     */
 }

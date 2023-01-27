@@ -19,4 +19,15 @@ CREATE TABLE equipmentTable(
         REFERENCES lockers(id)
 );
 
+CREATE TABLE footballs(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    timesKicked INT,
+    weight INT,
+    equipment BIGINT,
+    primary key (id),
+    CONSTRAINT fk_location
+                      FOREIGN KEY (equipment)
+                      REFERENCES equipmentTable(id)
+);
+
 
