@@ -1,3 +1,4 @@
+import equipment.Equipment;
 import equipment.EquipmentManager;
 import equipment.Locker;
 
@@ -21,6 +22,7 @@ public class Menu {
             System.out.println("0. Exit");
             System.out.println("1. See all lockers");
             System.out.println("12. Add a locker");
+            System.out.println("2. Show equipment");
 
             String input = sc.nextLine();
 
@@ -67,8 +69,15 @@ public class Menu {
                     System.out.println("This is where we display stuff");
 
                     //should we read from db here
+                    /*
                     for(String s : em.equipmentPrintout()){
                         System.out.println(s);
+                    }
+
+                     */
+                    ArrayList<Equipment> list = jdbcOps.getAllEquipment();
+                    for(Equipment e : list){
+                        System.out.println(e.printout());
                     }
                     break;
                 }

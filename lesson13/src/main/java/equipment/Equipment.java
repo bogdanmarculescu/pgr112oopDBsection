@@ -6,6 +6,9 @@ public abstract class Equipment {
     protected Locker location;
     protected boolean requiresMaintenance;
 
+    public void setRequiresMaintenance(boolean maintenance){
+        this.requiresMaintenance = maintenance;
+    }
     public long getId() {
         return id;
     }

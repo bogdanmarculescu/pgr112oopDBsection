@@ -1,5 +1,4 @@
-import equipment.Equipment;
-import equipment.Locker;
+import equipment.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,6 +28,12 @@ public class JDBCOps {
         return null;
     }
 
+    /***
+     * The method gets all Locker objects from the database.
+     * It has the same functionality as [getLockers] but contains its own
+     * database connection creation
+     * @return - an ArrayList of Locker objects, containing all the objects found in the database.
+     */
     public ArrayList<Locker> getLockers(){
         ArrayList<Locker> result = new ArrayList<>();
 
@@ -55,6 +60,12 @@ public class JDBCOps {
 
         return result;
     }
+
+    /***
+     * The method adds an object of type Locker to the appropriate db table.
+     * @param locker - the locker object that needs to be added.
+     * @return - true if successful, false if not successful.
+     */
     public boolean addLocker(Locker locker){
         try (Connection con = getConnection()) {
 
@@ -81,31 +92,8 @@ public class JDBCOps {
      * @param id - the id that is to be retrieved
      * @return - returns a [Locker] object if a match is found, and null otherwise
      */
-    public Locker getLockerBuiltin(int id){
-        try (Connection con = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/equipmentManager?useSSL=false", "root", "adminroot")) {
 
-            Statement stmt = con.createStatement();
-            String selectLocker = "SELECT * FROM lockers " +
-                    "WHERE id='" +
-                    id +
-                    "'" ;
-
-            ResultSet resultSet = stmt.executeQuery(selectLocker);
-            while(resultSet.next()){
-                Locker l1 = new Locker();
-                l1.setId(resultSet.getInt("id"));
-                l1.setLocation(resultSet.getString("location"));
-                l1.setAddress(resultSet.getString("address"));
-                return l1;
-            }
-        }
-        catch (SQLException sqlException){
-            sqlException.printStackTrace();
-        }
-        return null;
-    }
-    public Locker getLocker(int id){
+    public Locker getLocker(long id){
         try (Connection con = getConnection()){
             Statement stmt = con.createStatement();
             String selectLocker = "SELECT * FROM lockers " +
@@ -128,69 +116,51 @@ public class JDBCOps {
         return null;
     }
 
-    /***
-     * The method gets all Locker objects from the database.
-     * It has the same functionality as [getLockers] but contains its own
-     * database connection creation
-     * @return - an ArrayList of Locker objects, containing all the objects found in the database.
-     */
-    public ArrayList<Locker> getLockersInitial(){
-        ArrayList<Locker> result = new ArrayList<>();
 
-        try(Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/equipmentManager?useSSL=false",
-                "root",
-                "adminroot"
-        )){
+    public ArrayList<Equipment> getAllEquipment(){
+        ArrayList<Equipment> result = new ArrayList<>();
+
+        try(Connection con = getConnection()){
             Statement stmt = con.createStatement();
 
-            String sqlQuery = "SELECT * FROM lockers";
+            String sqlString = "SELECT * FROM equipmentTable";
 
-            ResultSet resultSet = stmt.executeQuery(sqlQuery);
+            ResultSet resultSet = stmt.executeQuery(sqlString);
 
-            while(resultSet.next()){
-                Locker tempLocker = new Locker();
-                int lockerId = resultSet.getInt("id");
-                String location = resultSet.getString("location");
-                String address = resultSet.getString("address");
-                tempLocker.setId(lockerId);
-                tempLocker.setLocation(location);
-                tempLocker.setAddress(address);
+            while (resultSet.next()){
+                long id = resultSet.getLong("id");
+                int maint = resultSet.getInt("requiresMaintenance");
+                boolean maintB = false;
+                if (maint==1){
+                    maintB = true;
+                }
+                String name = resultSet.getString("name");
+                String eType = resultSet.getString("type");
+                long lockerid = resultSet.getLong("location");
+                Locker locker = getLocker(lockerid);
 
-                result.add(tempLocker);
+                Equipment temp;
+                switch (eType){
+                    case "Sword" : {
+                        temp = new Sword();
+                        break;
+                    }
+                    case "Volleyball" : {
+                        temp = new Volleyball();
+                        break;
+                    }
+                    default: {
+                        temp = new Football();
+                        break;
+                    }
+                }
+
+                temp.setId(id);
+                temp.setLocation(locker);
+                temp.setRequiresMaintenance(maintB);
+
+                result.add(temp);
             }
-
-        }
-        catch(SQLException sqlException){
-            sqlException.printStackTrace();
-        }
-
-        return result;
-    }
-
-    /***
-     * The method adds an object of type Locker to the appropriate db table.
-     * @param locker - the locker object that needs to be added.
-     * @return - true if successful, false if not successful.
-     */
-    public boolean addLockerToDb(Locker locker){
-        boolean result = false;
-        try(Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/equipmentManager?useSSL=false&allowPublicKey=true",
-                "root",
-                "adminroot"
-        )){
-
-            Statement stms = con.createStatement();
-
-            String insertSql= "INSERT INTO lockers(location, address) VALUES" +
-                    "('" +
-                    locker.getLocation() + "', '" +
-                    locker.getAddress() +
-                    "') ";
-
-            stms.execute(insertSql);
-            result = true;
 
         }
         catch (SQLException sqlException){

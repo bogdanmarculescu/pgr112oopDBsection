@@ -1,6 +1,8 @@
 package equipment;
 
 public class Football extends Equipment implements Kickable{
+
+    private int timesKicked;
     public int getWeight() {
         return weight;
     }
@@ -22,6 +24,7 @@ public class Football extends Equipment implements Kickable{
         this.name = name;
         this.location = locker;
         this.weight = 450;
+        this.timesKicked = 0;
     }
 
     @Override
@@ -51,6 +54,7 @@ public class Football extends Equipment implements Kickable{
     @Override
     public boolean kick() {
         System.out.println("Kicked!");
+        timesKicked++;
         return true;
     }
 }
