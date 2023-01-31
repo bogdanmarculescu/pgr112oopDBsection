@@ -92,8 +92,6 @@ public class JDBCOps {
                 return id;
             }
 
-
-
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -213,26 +211,34 @@ public class JDBCOps {
     public void addEquipment(Equipment equip){
         String type = equip.getClass().getSimpleName();
         try(Connection con = getConnection()) {
+            con.setAutoCommit(false);
+            long lockerId = -1;
             Statement stat = con.createStatement();
+
+            if(equip.getLocation().getId() != -1){
+                lockerId = this.addLocker(equip.getLocation());
+            }
 
             String sql = "INSERT INTO equipmentTable(requiresMaintenance, location, name, type) " +
                     "VALUES ('" +
                     (equip.requiresMaintenance() ? 1 : 0)
                     + "', '" +
-                    equip.getLocation().getId() +"', '" +
+                    lockerId +"', '" +
                     equip.getName() + "', '" +
                     type + "')";
 
-            stat.execute(sql);
+            int result = stat.executeUpdate(sql);
+
+            if(lockerId == -1){
+                con.rollback();
+            }
+            else {
+                con.commit();
+            }
         }
         catch (SQLException e){
             e.printStackTrace();
         }
     }
 
-    /*
-    public ArrayList<Football> getFootballs(){
-    }
-
-     */
 }

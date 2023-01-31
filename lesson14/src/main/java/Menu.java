@@ -165,6 +165,7 @@ public class Menu {
         tempLocker.setLocation(location);
         tempLocker.setAddress(address);
 
+
         long id = jdbcOps.addLocker(tempLocker);
         //boolean added = jdbcOps.addLockerToDb(tempLocker);
         if(id != -1){
