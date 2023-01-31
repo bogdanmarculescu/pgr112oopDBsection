@@ -54,6 +54,7 @@ public class Menu {
                 case "13" : {
                     // let's get some address from the user and retrieve from DB
                     System.out.println("Type in address:");
+                    System.out.println("Hint: try Byzantium' OR '1' = '1");
                     String address = sc.nextLine();
                     ArrayList<Locker> lockers = jdbcOps.getLockersByAddress(address);
 
