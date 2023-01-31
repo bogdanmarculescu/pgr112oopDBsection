@@ -1,6 +1,7 @@
 package equipment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class EquipmentManager {
     public ArrayList<Equipment> overview = new ArrayList<>();
@@ -34,5 +35,9 @@ public class EquipmentManager {
             result.add(e.printout());
         }
         return result;
+    }
+
+    public void bulkImport(ArrayList equipment){
+        this.overview.addAll(equipment);
     }
 }
