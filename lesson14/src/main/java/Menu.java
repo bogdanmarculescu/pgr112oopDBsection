@@ -102,16 +102,23 @@ public class Menu {
                     System.out.println("which locker is it in? (I mean id - leave empty if new)");
                     String locker = sc.nextLine();
 
-                    long lockerid = -1;
+                    //long lockerid = -1;
+                    Locker lockerObject = createLocker(sc);
+                    if(!locker.isEmpty()) {
+                        lockerObject.setId(Integer.parseInt(locker));
+                    }
+
+                    /*
                     if(locker.isEmpty()){
-                        lockerid = createAndAddLocker(sc, jdbcOps);
+                        lockerObject = createLocker(sc);
                     }
                     else {
-                        lockerid = Long.parseLong(locker);
+                        long lockerid = Long.parseLong(locker);
+                        lockerObject = jdbcOps.getLocker(lockerid);
                     }
-                    Locker locker1 = jdbcOps.getLocker(lockerid);
+                    //Locker locker1 = jdbcOps.getLocker(lockerid);
                     // at this point locker1 SHOULD have SOMETHING in it :)
-
+                    */
                     Equipment e;
                     switch(type){
                         case "Football" : {
@@ -134,7 +141,7 @@ public class Menu {
                     }
 
                     e.setRequiresMaintenance(maintenanceB);
-                    e.setLocation(locker1);
+                    e.setLocation(lockerObject);
                     e.setName(name);
 
                     jdbcOps.addEquipment(e);
@@ -176,5 +183,30 @@ public class Menu {
             System.out.println("NOOOOOOO!");
         }
         return id;
+    }
+
+    public Locker createAndAddLocker(Scanner sc){
+        System.out.println("Add a locker");
+        System.out.println("Location: ");
+        String location = sc.nextLine();
+        System.out.println("Address: ");
+        String address = sc.nextLine();
+        Locker tempLocker = new Locker();
+        tempLocker.setLocation(location);
+        tempLocker.setAddress(address);
+        tempLocker.setId(-1);
+        return tempLocker;
+    }
+    public Locker createLocker(Scanner sc){
+        System.out.println("Add a locker");
+        System.out.println("Location: ");
+        String location = sc.nextLine();
+        System.out.println("Address: ");
+        String address = sc.nextLine();
+        Locker tempLocker = new Locker();
+        tempLocker.setLocation(location);
+        tempLocker.setAddress(address);
+        tempLocker.setId(-1);
+        return tempLocker;
     }
 }

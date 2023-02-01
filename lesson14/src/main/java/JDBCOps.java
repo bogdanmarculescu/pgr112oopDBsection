@@ -209,31 +209,47 @@ public class JDBCOps {
     }
 
     public void addEquipment(Equipment equip){
+        this.addEquipment(equip, false);
+    }
+
+    public void addEquipment(Equipment equip, boolean allowed){
         String type = equip.getClass().getSimpleName();
         try(Connection con = getConnection()) {
             con.setAutoCommit(false);
-            long lockerId = -1;
+            long lockerId = equip.getLocation().getId();
             Statement stat = con.createStatement();
 
-            if(equip.getLocation().getId() != -1){
+            if(equip.getLocation() != null &&
+                    equip.getLocation().getId() == -1){
+                //equipment exists, but id is -1
+
                 lockerId = this.addLocker(equip.getLocation());
+                equip.getLocation().setId((int) lockerId);
+            } else if (equip.getLocation() != null &&
+                    equip.getLocation().getId() != -1) {
+                // there is an id
+                Locker locker = this.getLocker(equip.getLocation().getId());
+
+                if(locker!=null){
+                    lockerId = locker.getId();
+                }
             }
+
 
             String sql = "INSERT INTO equipmentTable(requiresMaintenance, location, name, type) " +
-                    "VALUES ('" +
-                    (equip.requiresMaintenance() ? 1 : 0)
-                    + "', '" +
-                    lockerId +"', '" +
-                    equip.getName() + "', '" +
-                    type + "')";
+                        "VALUES ('" +
+                        (equip.requiresMaintenance() ? 1 : 0)
+                        + "', '" +
+                        equip.getLocation().getId() +"', '" +
+                        equip.getName() + "', '" +
+                        type + "')";
 
             int result = stat.executeUpdate(sql);
-
-            if(lockerId == -1){
-                con.rollback();
+            if(allowed && lockerId!=-1){
+                con.commit();
             }
             else {
-                con.commit();
+                con.rollback();
             }
         }
         catch (SQLException e){

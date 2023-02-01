@@ -1,7 +1,7 @@
 package equipment;
 
 public class Locker {
-    private int id;
+    private int id = -1;
     private String location;
     private String address;
 
