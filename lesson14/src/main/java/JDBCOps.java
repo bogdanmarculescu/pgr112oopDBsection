@@ -262,9 +262,16 @@ public class JDBCOps {
             }
 
 
+            int insertableValue = 0;
+            if(equip.requiresMaintenance()){
+                insertableValue = 1;
+            }
+
+
             String sql = "INSERT INTO equipmentTable(requiresMaintenance, location, name, type) " +
                         "VALUES ('" +
-                        (equip.requiresMaintenance() ? 1 : 0)
+                        //(equip.requiresMaintenance() ? 1 : 0)
+                        insertableValue
                         + "', '" +
                         equip.getLocation().getId() +"', '" +
                         equip.getName() + "', '" +
@@ -284,3 +291,4 @@ public class JDBCOps {
     }
 
 }
+
