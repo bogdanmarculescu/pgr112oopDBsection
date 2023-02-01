@@ -129,6 +129,32 @@ public class JDBCOps {
         return null;
     }
 
+    public ArrayList<Locker> getLockersByAddressPrep(String address){
+        ArrayList<Locker> result = new ArrayList<>();
+        String preparedSelect = "SELECT * FROM lockers WHERE address=?";
+
+        try (Connection con = getConnection()){
+            con.setAutoCommit(false);
+
+            PreparedStatement prep = con.prepareStatement(preparedSelect);
+            prep.setString(1, address);
+
+            ResultSet resultSet = prep.executeQuery();
+            while(resultSet.next()){
+                Locker l1 = new Locker();
+                l1.setId(resultSet.getInt("id"));
+                l1.setLocation(resultSet.getString("location"));
+                l1.setAddress(resultSet.getString("address"));
+                result.add(l1);
+                //return l1;
+            }
+        }
+        catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        return result;
+    }
+
     public ArrayList<Locker> getLockersByAddress(String address){
         ArrayList<Locker> result = new ArrayList<>();
         try (Connection con = getConnection()){

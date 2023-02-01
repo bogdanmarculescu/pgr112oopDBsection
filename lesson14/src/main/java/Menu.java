@@ -23,6 +23,7 @@ public class Menu {
             System.out.println("1. See all lockers");
             System.out.println("12. Add a locker");
             System.out.println("13. Get locker by address");
+            System.out.println("14. Get locker by address (safe)");
             System.out.println("2. Show equipment");
             System.out.println("3. Add equipment");
 
@@ -57,6 +58,21 @@ public class Menu {
                     System.out.println("Hint: try Byzantium' OR '1' = '1");
                     String address = sc.nextLine();
                     ArrayList<Locker> lockers = jdbcOps.getLockersByAddress(address);
+
+                    for(Locker locker : lockers){
+                        System.out.println("Locker: " + locker.getId() + " -> " +
+                                "Location: " + locker.getLocation() + ", " +
+                                "Address: " + locker.getAddress());
+                    }
+
+                    break;
+                }
+                case "14" : {
+                    // let's get some address from the user and retrieve from DB
+                    System.out.println("Type in address (safe):");
+                    System.out.println("Hint: try Byzantium' OR '1' = '1");
+                    String address = sc.nextLine();
+                    ArrayList<Locker> lockers = jdbcOps.getLockersByAddressPrep(address);
 
                     for(Locker locker : lockers){
                         System.out.println("Locker: " + locker.getId() + " -> " +
