@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import equipment.*;
+import equipmentmanager.*;
 
 public class Menu {
     public EquipmentManager em;

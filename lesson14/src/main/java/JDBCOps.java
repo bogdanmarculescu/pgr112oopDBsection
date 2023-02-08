@@ -155,6 +155,38 @@ public class JDBCOps {
         return result;
     }
 
+    public int deleteLockerById(long id){
+        String deleteSQL= "DELETE FROM lockers WHERE id=?";
+        int res = -1;
+        try(Connection con  = getConnection()){
+            PreparedStatement ps = con.prepareStatement(deleteSQL);
+            ps.setLong(1, id);
+
+            res = ps.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
+    public int deleteLockerByLocation(String location){
+        String deleteSQL= "DELETE FROM lockers WHERE location=?";
+        int res = -1;
+        try(Connection con  = getConnection()){
+            PreparedStatement ps = con.prepareStatement(deleteSQL);
+            ps.setString(1, location);
+
+            res = ps.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
     public ArrayList<Locker> getLockersByAddress(String address){
         ArrayList<Locker> result = new ArrayList<>();
         try (Connection con = getConnection()){

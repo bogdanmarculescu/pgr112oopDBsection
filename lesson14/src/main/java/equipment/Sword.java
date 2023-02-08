@@ -9,6 +9,12 @@ public class Sword extends Equipment{
     public Sword(String type){
         this.type = type;
     }
+
+    public Sword(String name, String type){
+        this.name = name;
+        this.type = type;
+
+    }
     @Override
     public boolean requiresMaintenance() {
         return this.requiresMaintenance;
