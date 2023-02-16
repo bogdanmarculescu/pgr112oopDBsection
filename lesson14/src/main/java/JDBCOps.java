@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import equipment.*;
 
 public class JDBCOps {
+
+    //private Connection continuousConnection;
     public JDBCOps(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -10,16 +12,22 @@ public class JDBCOps {
         catch (ClassNotFoundException exception){
             exception.printStackTrace();
         }
+        //continuousConnection = getConnection();
     }
 
     public Connection getConnection(){
         try{
             return DriverManager
                     .getConnection(
-                            "jdbc:mysql://localhost:3306/equipmentManager?useSSL=false",
+                            "jdbc:mysql://localhost:3306/equipmentManager?" +
+                                    "useSSL=false&" +
+                                    "allowPublicKeyRetrieval=true",
                             "root",
                             "adminroot"
                     );
+            /*
+            Writing passwords in the clear in code is definitely a no-no.
+             */
         }
         catch(SQLException sqlException){
             sqlException.printStackTrace();
@@ -35,12 +43,18 @@ public class JDBCOps {
      */
     public ArrayList<Locker> getLockers(){
         ArrayList<Locker> result = new ArrayList<>();
-
+        String prep = "SELECT * FROM lockers";
         try(Connection con = getConnection()) {
             Statement stmt = con.createStatement();
 
+            PreparedStatement ps = con.prepareStatement(prep);
+
             String selectSql = "SELECT * FROM lockers";
             ResultSet resultSet = stmt.executeQuery(selectSql);
+
+            ps.executeQuery();
+
+
             while(resultSet.next()){
                 int lockerId = resultSet.getInt("id");
                 String location = resultSet.getString("location");
@@ -51,10 +65,14 @@ public class JDBCOps {
                 temp.setAddress(address);
                 result.add(temp);
             }
+            con.close();
 
         }
         catch(SQLException sqlException){
             sqlException.printStackTrace();
+        }
+        finally {
+            System.out.println("and that's done");
         }
 
         return result;
@@ -95,6 +113,7 @@ public class JDBCOps {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+        locker.setId((int) id);
         return id;
     }
 
@@ -324,6 +343,3 @@ public class JDBCOps {
 
 }
 
-/* Note to self: rollback example with two-way connections between objects
-*
-* */

@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import equipment.*;
 import equipmentmanager.*;
+import equipment.*;
 
 public class Menu {
     public EquipmentManager em;
@@ -191,6 +191,8 @@ public class Menu {
 
 
         long id = jdbcOps.addLocker(tempLocker);
+
+        tempLocker.getId();
         //boolean added = jdbcOps.addLockerToDb(tempLocker);
         if(id != -1){
             System.out.println("Huzzah! Added!");

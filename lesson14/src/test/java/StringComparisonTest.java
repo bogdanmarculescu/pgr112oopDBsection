@@ -23,18 +23,28 @@ public class StringComparisonTest {
     }
 
     @Test
-    public void randomDeletionTest(){
-        JDBCOps ops = new JDBCOps();
+    public void lifecycleStuff(){
+        int i = -1;
+        int j = i;
+        i = 42;
 
-        int result = ops.deleteLockerById(42);
+        assertTrue(i!=j);
 
-        assertTrue(result==0);
-        Locker locker = new Locker();
-        locker.setLocation("TestLocation");
-        locker.setAddress("TestAddress");
-        ops.addLocker(locker);
+        Locker l1 = new Locker();
+        l1.setId(-1);
 
-        ops.deleteLockerByLocation("TestLocation");
+
+        Locker l2 = l1;
+        assertTrue(l2.getId()==-1);
+
+            l1.setId(42);
+
+        l2 = new Locker();
+        l2.setId(37);
+
+
+        l1 = new Locker();
+        l1.setId(13);
 
 
     }
